@@ -4,6 +4,7 @@ namespace App\Controllers\Tecnicas;
 
 use App\Controllers\BaseController;
 use CodeIgniter\I18n\Time;
+use DateTime;
 
 class Controlador extends BaseController
 {
@@ -49,6 +50,30 @@ class Controlador extends BaseController
             }
         }
         $tareas = $model->where('id_usuario', $idUsuario)->orderBy('fechaVencimiento', 'DESC')->findAll();
+
+
+        // aviso de vencimiento
+
+
+        $hoy = new DateTime();
+        foreach ($tareas as &$tarea) {
+
+            $formato = 'd/m/Y';
+            $recordatorio = !empty($tarea['fechaRecordatorio']) ? \DateTime::createFromFormat($formato, $tarea['fechaRecordatorio']) : null;
+            $vencimiento  = !empty($tarea['fechaVencimiento'])  ? \DateTime::createFromFormat($formato, $tarea['fechaVencimiento'])  : null;
+
+            $tarea['alerta'] = false;
+
+            if ($recordatorio && $vencimiento) {
+                if ($hoy >= $recordatorio && $hoy <= $vencimiento) {
+                    $tarea['alerta'] = true;
+                }
+            } elseif ($vencimiento && $hoy >= $vencimiento) {
+                // Ya vencida
+                $tarea['alerta'] = true;
+            }
+        }
+
 
         // -------------------------------- //
 
@@ -1001,8 +1026,8 @@ class Controlador extends BaseController
         $apellidoUsuario = session()->get('usuario_apellido');
 
         $mensaje = '
-    <p>Has sido invitado por <strong>' . $nombreUsuario . ' ' . $apellidoUsuario . '</strong> para colaborar en una tarea.</p>
-    <p><a href="' . base_url('/Compartidos') . '" style="display: inline-block; padding: 10px 15px; background-color:rgb(7, 99, 155); color: white; text-decoration: none; border-radius: 5px;">Ver Tarea</a></p>';
+        <p>Has sido invitado por <strong>' . $nombreUsuario . ' ' . $apellidoUsuario . '</strong> para colaborar en una tarea.</p>
+        <p><a href="' . base_url('/Compartidos') . '" style="display: inline-block; padding: 10px 15px; background-color:rgb(7, 99, 155); color: white; text-decoration: none; border-radius: 5px;">Ver Tarea</a></p>';
 
         $email->setMessage($mensaje);
 
@@ -1086,8 +1111,3 @@ class Controlador extends BaseController
         return redirect()->to(base_url('/Login'));
     }
 }
-
-
-
-
-
