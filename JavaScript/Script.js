@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modalEditar.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
     
-            // Extraer los datos del botón
+            // Extraer los datos del boton
             var id = button.getAttribute('data-idsub');
             var tema = button.getAttribute('data-tema');
             var descripcion = button.getAttribute('data-descripcion');
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// Oculta el mensaje despues de 5 segundos
+// Oculta el mensaje despues de 4 segundos
 setTimeout(function() {
     const mensaje = document.getElementById('mensajeError');
     if (mensaje) {

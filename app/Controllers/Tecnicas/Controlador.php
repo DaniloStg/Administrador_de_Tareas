@@ -52,7 +52,7 @@ class Controlador extends BaseController
         $tareas = $model->where('id_usuario', $idUsuario)->orderBy('fechaVencimiento', 'DESC')->findAll();
 
 
-        // aviso de vencimiento
+        // aviso de vencimiento (fecha se marca en rojo)
 
 
         $hoy = new DateTime();
@@ -113,7 +113,7 @@ class Controlador extends BaseController
             ->orderBy('id', 'DESC')
             ->findAll();
 
-        $anotaciones = session()->get('anotaciones');
+        // $anotaciones = session()->get('anotaciones');
 
         // -------------------------------- //
 
@@ -346,7 +346,7 @@ class Controlador extends BaseController
         return redirect()->to(base_url('/Principal'));
     }
 
-
+    // muestra la tarea seleccionada
     public function Tarea()
     {
 
@@ -1099,6 +1099,17 @@ class Controlador extends BaseController
     }
 
 
+    public function eliminarAnotacion()
+    {
+        $modelo = new \App\Models\Tecnicas\ModelAnotacion();
+
+        $id = $this->request->getPost('id');
+
+        if ($id) {
+            $modelo->delete($id);
+        }
+        return redirect()->to(base_url('/Principal'));
+    }
 
 
 
