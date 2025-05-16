@@ -32,9 +32,11 @@
         <div id="divListadoTareas">
 
     <?php 
+    $tieneArchivadas = false;
     if(!empty($tareas)){
         foreach ($tareas as $tarea){ 
-            if($tarea['estado'] == 'Archivada'){ ?>
+            if($tarea['estado'] == 'Archivada'){ 
+                $tieneArchivadas = true;?>
                 <button class="listaT listaTareas mt-1" data-id="<?= $tarea['id'] ?>">  
                     <span class="etiqueta"> <strong>Fecha Vencimiento:</strong></span>
                     <span class="contenido"> <?=$tarea['fechaVencimiento'] ?></span> <br>
@@ -42,12 +44,13 @@
                     <span class="contenido"> <?=$tarea['tema'] ?></span> 
                 </button>
 
-            <?php } else { ?>
-            <p class="mt-3"><strong>No tienes tareas archivadas.</strong></p>  
-        <?php } 
+            <?php } 
         }
         
     }  ?>
+    <?php if(!$tieneArchivadas) { ?>
+            <p class="mt-3"><strong>No tienes tareas archivadas.</strong></p>  
+        <?php } ?>
     </div>    
 
 </div>
