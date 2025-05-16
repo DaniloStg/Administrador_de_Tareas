@@ -31,7 +31,7 @@ $routes->post('form/guardarColores', 'Tecnicas\Controlador::guardarColores');
 $routes->post('form/seleccionarOrden','Tecnicas\Controlador::seleccionarOrden');
 $routes->post('tareasCompartidas/aceptar','Tecnicas\Controlador::aceptarTarea');
 $routes->post('tareasCompartidas/rechazar','Tecnicas\Controlador::rechazarTarea');
-
+$routes->post('anotaciones/eliminar', 'Tecnicas\Controlador::eliminarAnotacion');
 
 
 
